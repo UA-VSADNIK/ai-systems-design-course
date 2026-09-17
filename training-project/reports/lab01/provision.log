@@ -1,0 +1,56 @@
+**********************
+Windows PowerShell transcript start
+Start time: 20260916085707
+Username: VIVOBOOK_16\vlads
+RunAs User: VIVOBOOK_16\vlads
+Configuration Name:
+Machine: VIVOBOOK_16 (Microsoft Windows NT 10.0.26200.0)
+Host Application: C:\Windows\System32\WindowsPowerShell\v1.0\powershell.exe
+Process ID: 7692
+PSVersion: 5.1.26100.9444
+PSEdition: Desktop
+PSCompatibleVersions: 1.0, 2.0, 3.0, 4.0, 5.0, 5.1.26100.9444
+BuildVersion: 10.0.26100.9444
+CLRVersion: 4.0.30319.42000
+WSManStackVersion: 3.0
+PSRemotingProtocolVersion: 2.3
+SerializationVersion: 1.1.0.1
+**********************
+Transcript started, output file is .\provision.log
+PS D:\ai_system_design\ai-systems-design-course\training-project> winget configure --file .\fixtures\windows\lab01-workstation.dsc.yaml --accept-configuration-agreements
+    PowerShell Module with DSC resources related to WinGet configurations
+  Settings:
+    id: Obsidian.Obsidian
+    source: winget
+You are responsible for understanding the configuration settings you are choosing to execute. Microsoft is not responsib
+le for the configuration file you have authored or imported. This configuration may change settings in Windows, install
+software, change software settings (including security settings), and accept user agreements to third-party packages and
+ services on your behalf.  By running this configuration file, you acknowledge that you understand and agree to these re
+sources and settings. Any applications installed are licensed to you by their owners. Microsoft is not responsible for,
+nor does it grant any licenses to, third-party packages or services.
+OsVersion
+  Unit successfully applied.
+WinGetPackage [git]
+  Unit successfully applied.
+WinGetPackage [uv]
+  Unit successfully applied.
+WinGetPackage [github-cli]
+  Unit successfully applied.
+WinGetPackage [obsidian]
+  Unit successfully applied.
+Configuration successfully applied.
+PS D:\ai_system_design\ai-systems-design-course\training-project> winget configure --file .\fixtures\windows\lab01-workstation.dsc.yaml --accept-configuration-agreements
+
+PS D:\ai_system_design\ai-systems-design-course\training-project> winget list --id Git.Git --exact --source winget
+
+PS D:\ai_system_design\ai-systems-design-course\training-project> winget list --id GitHub.cli --exact --source winget
+
+PS D:\ai_system_design\ai-systems-design-course\training-project> winget list --id astral-sh.uv --exact --source winget
+
+PS D:\ai_system_design\ai-systems-design-course\training-project> winget list --id Obsidian.Obsidian --exact --source winget
+
+PS D:\ai_system_design\ai-systems-design-course\training-project> Stop-Transcript
+**********************
+Windows PowerShell transcript end
+End time: 20260916085757
+**********************

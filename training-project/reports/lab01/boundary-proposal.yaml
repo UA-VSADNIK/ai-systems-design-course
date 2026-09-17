@@ -1,0 +1,21 @@
+# Candidate for Laboratory 01: normally AI-generated; student-authored only on the documented no-agent fallback.
+# Replace the instructional values, but preserve every field and keep status proposed.
+schema_version: "1.0"
+proposal_id: lab01-learning-system-boundary
+status: proposed
+personal_domain: software-engineering
+intended_learning_outcome: The student can build and maintain an evidence-based technical knowledge base by tracing concepts to registered sources, identifying semantic relations and prerequisites, and recording unresolved questions with human-approved changes.
+non_goals:
+  - The system does not ingest or process private personal data, credentials, private notes, or family information.
+  - The system does not autonomously approve or mutate canonical knowledge and does not make high-consequence medical, financial, legal, or safety-critical decisions.
+governance:
+  ai_role: In the normal AI-assisted workflow, AI proposes bounded interpretations, relations, ambiguities, contradictions, and open questions while exposing uncertainty; it cannot approve or mutate canonical state.
+  deterministic_role: Validate the candidate, bind the decision to its digest, and apply only approved content.
+  human_role: Review meaning and explicitly approve or reject the proposal before application; on the documented no-agent fallback, the student authors the candidate manually and does not claim AI authorship.
+usefulness_condition: The complete workflow is useful if a student can trace each accepted knowledge change to its source and approval decision while preserving a reproducible canonical state without relying on paid AI services.
+material_risk: A plausible but incorrect AI-proposed interpretation or relation could be accepted by mistake and introduce unsupported knowledge into the canonical learning state.
+non_ai_baseline: A simpler baseline is a manually maintained Markdown knowledge base in which the student reads registered sources, records concepts and relations, and reviews every change without AI assistance.
+uncertainty: It has not yet been established how much AI assistance will improve the student's learning outcome compared with the manual baseline while preserving the required review and evidence quality.
+required_evidence:
+  - A successful deterministic validation result for the proposal and, after semantic review, a decision bound to the exact proposal identifier and SHA-256 digest.
+  - A documented human semantic review in REPORT.md showing that the intended outcome, boundaries, risks, evidence, and source grounding were reviewed before acceptance.
