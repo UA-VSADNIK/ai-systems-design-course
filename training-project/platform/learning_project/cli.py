@@ -1,22 +1,43 @@
 """Command line for the Laboratory 01 governed-proposal workflow.
 
-Three commands map one to one onto the governed-proposal protocol, and one
-command verifies the workstation:
+Three commands map one to one onto the governed-proposal protocol, one
+command verifies the workstation, and one command writes a Teams submission
+copy of a Markdown report:
 
 * ``validate`` — check a candidate proposal; it changes nothing.
 * ``decide``   — record the explicit human approval or rejection.
 * ``apply``    — turn an approved proposal into the accepted contract.
 * ``doctor``   — write a normalized workstation capability report.
+* ``prepare-report`` — write ``submission/REPORT.md`` with images embedded.
 """
 
 from __future__ import annotations
 
 import argparse
 import json
+import os
+import subprocess
 import sys
 from pathlib import Path
 
+from .agy_adapter import run_agy
 from .doctor import collect_environment_report
+from .lab02 import (
+    Lab02InputError,
+    apply_candidate,
+    check_approved_fixtures,
+    compare_live_runs,
+    import_response,
+    prepare_request,
+    record_decision as record_lab02_decision,
+    record_run_metadata,
+    register_source,
+    revise_candidate,
+    validate_candidate,
+    verify_lab02,
+)
+from .openai_compatible import run_openrouter
+from .report_submission import prepare_report
 from .workflow import (
     ACCEPTED_FILENAME,
     DECISION_FILENAME,
@@ -32,6 +53,19 @@ from .workflow import (
 
 def _sibling(proposal_path: Path, explicit: Path | None, filename: str) -> Path:
     return explicit if explicit is not None else proposal_path.parent / filename
+
+
+def _discover_course_root() -> Path | None:
+    try:
+        result = subprocess.run(
+            ["git", "rev-parse", "--show-toplevel"],
+            capture_output=True,
+            text=True,
+            check=True,
+        )
+        return Path(result.stdout.strip())
+    except (OSError, subprocess.CalledProcessError):
+        return None
 
 
 def _build_parser() -> argparse.ArgumentParser:
@@ -65,6 +99,106 @@ def _build_parser() -> argparse.ArgumentParser:
         default=Path("environment-report.json"),
         help="Machine-readable capability report (default: environment-report.json).",
     )
+
+    prepare_report_command = commands.add_parser(
+        "prepare-report",
+        help="Write a Teams submission copy of a Markdown report with images embedded.",
+    )
+    prepare_report_command.add_argument("report", type=Path, help="Source Markdown report.")
+    prepare_report_command.add_argument(
+        "--output",
+        type=Path,
+        help="Submission copy (default: <report-dir>/submission/REPORT.md).",
+    )
+
+    lab02 = commands.add_parser("lab02", help="Run the Laboratory 02 governed workflow.")
+    lab02_commands = lab02.add_subparsers(dest="lab02_command", required=True)
+
+    register = lab02_commands.add_parser("register-source", help="Register the Module 02 source.")
+    register.add_argument("--vault", type=Path, required=True)
+    register.add_argument("--course-root", type=Path, required=True)
+    register.add_argument("--theory", type=Path, required=True)
+    register.add_argument("--course-repository", required=True)
+    register.add_argument("--course-commit", required=True)
+    register.add_argument("--by", required=True)
+
+    check_fixtures = lab02_commands.add_parser(
+        "check-fixtures", help="Exercise approved offline fixtures without changing the vault."
+    )
+    check_fixtures.add_argument("--vault", type=Path, required=True)
+
+    prepare = lab02_commands.add_parser("prepare", help="Write one deterministic model request.")
+    prepare.add_argument("--vault", type=Path, required=True)
+    prepare.add_argument("--report-dir", type=Path, required=True)
+    prepare.add_argument("--run-id", required=True)
+
+    run_agy_command = lab02_commands.add_parser(
+        "run-agy", help="Run the verified Antigravity CLI live profile."
+    )
+    run_agy_command.add_argument("--report-dir", type=Path, required=True)
+    run_agy_command.add_argument("--run-id", required=True)
+    run_agy_command.add_argument("--model-id", required=True)
+    run_agy_command.add_argument("--by", required=True)
+
+    run_openrouter_command = lab02_commands.add_parser(
+        "run-openrouter", help="Run the verified OpenRouter Free contingency profile."
+    )
+    run_openrouter_command.add_argument("--report-dir", type=Path, required=True)
+    run_openrouter_command.add_argument("--run-id", required=True)
+    run_openrouter_command.add_argument("--by", required=True)
+
+    import_command = lab02_commands.add_parser("import", help="Import one raw JSON response.")
+    import_command.add_argument("--vault", type=Path, required=True)
+    import_command.add_argument("--report-dir", type=Path, required=True)
+    import_command.add_argument("--run-id", required=True)
+    import_command.add_argument("--evidence-kind", choices=("live", "fixture"), required=True)
+
+    record_run = lab02_commands.add_parser("record-run", help="Record run attribution metadata.")
+    record_run.add_argument("--report-dir", type=Path, required=True)
+    record_run.add_argument("--run-id", required=True)
+    record_run.add_argument("--evidence-kind", choices=("live", "fixture"), required=True)
+    record_run.add_argument(
+        "--adapter", choices=("agy", "openai-compatible", "offline-fixture"), required=True
+    )
+    record_run.add_argument("--model-id", required=True)
+    record_run.add_argument("--by", required=True)
+
+    validate_lab02 = lab02_commands.add_parser("validate", help="Validate one candidate proposal.")
+    validate_lab02.add_argument("--vault", type=Path, required=True)
+    validate_lab02.add_argument("--report-dir", type=Path, required=True)
+    validate_lab02.add_argument("--proposal-id", required=True)
+    validate_lab02.add_argument("--output", type=Path, required=True)
+
+    revise = lab02_commands.add_parser("revise", help="Create a human-revised successor proposal.")
+    revise.add_argument("--vault", type=Path, required=True)
+    revise.add_argument("--revision", type=Path, required=True)
+
+    compare = lab02_commands.add_parser("compare-live", help="Compare two live runs.")
+    compare.add_argument("--vault", type=Path, required=True)
+    compare.add_argument("--report-dir", type=Path, required=True)
+    compare.add_argument("--run-id", nargs=2, required=True)
+    compare.add_argument("--output", type=Path)
+
+    decide_lab02 = lab02_commands.add_parser("decide", help="Record a Laboratory 02 decision.")
+    decide_lab02.add_argument("--vault", type=Path, required=True)
+    decide_lab02.add_argument("--proposal-id", required=True)
+    decide_lab02.add_argument("--validation", type=Path, required=True)
+    decide_lab02.add_argument("--review", type=Path, required=True)
+    lab02_outcome = decide_lab02.add_mutually_exclusive_group(required=True)
+    lab02_outcome.add_argument("--approve", action="store_true")
+    lab02_outcome.add_argument("--reject", action="store_true")
+    decide_lab02.add_argument("--by", required=True)
+    decide_lab02.add_argument("--reason")
+
+    apply_lab02 = lab02_commands.add_parser("apply", help="Apply an approved Laboratory 02 proposal.")
+    apply_lab02.add_argument("--vault", type=Path, required=True)
+    apply_lab02.add_argument("--proposal-id", required=True)
+    apply_lab02.add_argument("--validation", type=Path, required=True)
+    apply_lab02.add_argument("--review", type=Path, required=True)
+
+    verify = lab02_commands.add_parser("verify", help="Verify Laboratory 02 evidence read-only.")
+    verify.add_argument("--vault", type=Path, required=True)
+    verify.add_argument("--report-dir", type=Path, required=True)
 
     return parser
 
@@ -121,6 +255,156 @@ def _run_doctor(args: argparse.Namespace) -> int:
     return 0 if report["preflight"] == "green" else 1
 
 
+def _run_prepare_report(args: argparse.Namespace) -> int:
+    output_path, image_count = prepare_report(args.report, output_path=args.output)
+    print(f"Wrote the submission report to {output_path}.")
+    print(f"Embedded images: {image_count}")
+    return 0
+
+
+def _run_lab02(args: argparse.Namespace) -> int:
+    command = args.lab02_command
+    course_root = _discover_course_root()
+    if command == "check-fixtures":
+        results = check_approved_fixtures(vault=args.vault, course_root=course_root)
+        for name, result in results.items():
+            print(f"{name}: {result}")
+        return 0
+    if command == "register-source":
+        path = register_source(
+            course_root=args.course_root,
+            theory_path=args.theory,
+            vault=args.vault,
+            course_repository=args.course_repository,
+            course_commit=args.course_commit,
+            registered_by=args.by,
+        )
+        print(f"Registered the Module 02 source at {path}.")
+        return 0
+    if command == "prepare":
+        path = prepare_request(
+            vault=args.vault,
+            report_dir=args.report_dir,
+            run_id=args.run_id,
+            course_root=course_root,
+        )
+        print(f"Wrote the model request to {path}.")
+        return 0
+    if command == "run-agy":
+        result = run_agy(
+            report_dir=args.report_dir,
+            run_id=args.run_id,
+            schema_path=(
+                Path(__file__).resolve().parent.parent.parent
+                / "schemas/lab02-candidate.schema.json"
+            ),
+            model_id=args.model_id,
+            recorded_by=args.by,
+        )
+        print(
+            "Recorded an AGY live response using model "
+            f"{result['model_id']} for run {args.run_id}."
+        )
+        return 0
+    if command == "run-openrouter":
+        result = run_openrouter(
+            report_dir=args.report_dir,
+            run_id=args.run_id,
+            schema_path=(
+                Path(__file__).resolve().parent.parent.parent
+                / "schemas/lab02-candidate.schema.json"
+            ),
+            api_key=os.environ.get("OPENROUTER_API_KEY", ""),
+            recorded_by=args.by,
+        )
+        print(
+            "Recorded an OpenRouter live response using model "
+            f"{result['model_id']} for run {args.run_id}."
+        )
+        return 0
+    if command == "import":
+        path = import_response(
+            vault=args.vault,
+            report_dir=args.report_dir,
+            run_id=args.run_id,
+            evidence_kind=args.evidence_kind,
+            course_root=course_root,
+        )
+        print(f"Wrote the candidate proposal to {path}.")
+        return 0
+    if command == "record-run":
+        path = record_run_metadata(
+            report_dir=args.report_dir,
+            run_id=args.run_id,
+            evidence_kind=args.evidence_kind,
+            adapter=args.adapter,
+            model_id=args.model_id,
+            recorded_by=args.by,
+        )
+        print(f"Wrote run metadata to {path}.")
+        return 0
+    if command == "validate":
+        result = validate_candidate(
+            vault=args.vault,
+            report_dir=args.report_dir,
+            proposal_id=args.proposal_id,
+            output_path=args.output,
+            course_root=course_root,
+        )
+        print(f"Validation {'passed' if result['valid'] else 'failed'} for {args.proposal_id}.")
+        return 0 if result["valid"] else 1
+    if command == "revise":
+        path = revise_candidate(
+            vault=args.vault, revision_path=args.revision, course_root=course_root
+        )
+        print(f"Wrote the revised candidate to {path}.")
+        return 0
+    if command == "compare-live":
+        output = args.output or args.report_dir / "live-comparison.json"
+        comparison = compare_live_runs(
+            vault=args.vault,
+            report_dir=args.report_dir,
+            run_ids=tuple(args.run_id),
+            output_path=output,
+            course_root=course_root,
+        )
+        print(f"Wrote {comparison['comparison_kind']} evidence to {output}.")
+        return 0
+    if command == "decide":
+        status = "approved" if args.approve else "rejected"
+        path = record_lab02_decision(
+            vault=args.vault,
+            proposal_id=args.proposal_id,
+            validation_path=args.validation,
+            review_path=args.review,
+            status=status,
+            recorded_by=args.by,
+            reason=args.reason,
+            course_root=course_root,
+        )
+        print(f"Recorded {status} decision at {path}.")
+        return 0
+    if command == "apply":
+        concept, operation = apply_candidate(
+            vault=args.vault,
+            proposal_id=args.proposal_id,
+            validation_path=args.validation,
+            review_path=args.review,
+            course_root=course_root,
+        )
+        print(f"Wrote accepted concept {concept} and operation {operation}.")
+        return 0
+    if command == "verify":
+        report = verify_lab02(
+            vault=args.vault,
+            report_dir=args.report_dir,
+            course_root=course_root,
+        )
+        print(f"Laboratory 02 verification {report['status']}.")
+        return 0 if report["status"] == "passed" else 1
+    raise WorkflowError(f"Unknown Laboratory 02 command: {command}")
+
+
 def main(argv: list[str] | None = None) -> int:
     args = _build_parser().parse_args(argv)
     handlers = {
@@ -128,9 +412,14 @@ def main(argv: list[str] | None = None) -> int:
         "decide": _run_decide,
         "apply": _run_apply,
         "doctor": _run_doctor,
+        "prepare-report": _run_prepare_report,
+        "lab02": _run_lab02,
     }
     try:
         return handlers[args.command](args)
+    except Lab02InputError as exc:
+        print(f"error: {exc}", file=sys.stderr)
+        return 2
     except WorkflowError as exc:
         print(f"error: {exc}", file=sys.stderr)
         return 1
