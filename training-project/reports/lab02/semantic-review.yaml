@@ -1,0 +1,13 @@
+﻿schema_version: "1.0"
+review_id: lab02-structured-output-review
+proposal_id: lab02-structured-output-live-primary-01
+proposal_sha256: "fed94825e31b669dc51f796f6db6d6d5d6a651389b5564614f4f20bff76a7794"
+validation_id: lab02-structured-output-live-primary-01-validation
+validation_sha256: "0c0dd535f006aa64bb3e5b0ec5d51237253035349abc1ab0424da09e768dbe6f"
+findings:
+  definition: "The definition is correct and directly matches the source's definition of Structured Output as model output intended to follow an explicit machine-readable organization."
+  control_gates: "All three source-support records are aligned with their claim kinds. The candidate correctly distinguishes the syntactic gate, deterministic invariant gate, and semantic acceptance gate, and does not give semantic authority to the first two gates."
+  authority_boundary: "The candidate preserves the authority boundary: the model produces a candidate proposal, deterministic validation checks it without approving it, an authorized human reviewer examines meaning and evidence and records the decision, and a separately authorized apply operation may write the accepted state."
+rationale: "The candidate does not add unsupported substantive meaning beyond the registered source fragment. Its definition, key points, and source-support claims are grounded in the source. The tags structured-output, validation, and semantics and the three key points serve the learning purpose by identifying the concept and its validation and semantic boundaries; they do not encode provider or interaction-environment metadata. The candidate is therefore acceptable."
+verdict: acceptable
+reviewed_by: "kn1223b"
