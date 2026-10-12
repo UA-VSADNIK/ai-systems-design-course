@@ -82,7 +82,7 @@ reports/lab02/
   semantic-review.yaml
   verification-report.json
   submission/
-    REPORT.md                 (generated Teams copy with embedded images)
+    REPORT.md                 (generated ignored Teams copy; not committed)
   revisions/                  (only when a human revision is used)
   reviews/                    (only when a candidate is rejected)
   runs/<run-id>/
@@ -399,7 +399,7 @@ A full restart after a successful apply is not a reuse of `live-primary-01`. It 
 
 `lab02 verify` requires the six approved PNG files under `reports/lab02/screenshots/` and those exact filenames inside `REPORT.md`. Write the report and save screenshots `01`–`05` before running the verifier. Screenshot `06` is captured in Step 12 beside a passing result.
 
-Complete the source report copied in Step 2. Write every section in Ukrainian, in the student's own words. Keep every supplied heading and enter the fork URL and personal branch name in the identity section. Leave the evidence commit hash blank until Step 12 creates that commit. Keep the six supplied relative Markdown image paths and short captions that include each exact filename, including `06-final-result.png`. Do not embed `data:` URIs in this source report. Explain:
+Complete the source report copied in Step 2. Write every section in Ukrainian and in a formal technical style. Use third-person or impersonal constructions; do not use first-person narration such as `я`, `ми`, `мною`, `нами`, `мій`, or `наш`. Keep every supplied heading and enter the fork URL and personal branch name in the identity section. Leave the evidence commit hash blank until Step 12 creates that commit. Keep the six supplied relative Markdown image paths and short captions that include each exact filename, including `06-final-result.png`. Do not embed `data:` URIs in this source report. Explain:
 
 - which adapter and model were used for each live run, and whether the comparison is `same-model-variability` or `fallback-portability` and why; classification follows the recorded adapter and model metadata, not whether the responses differ;
 - one concrete difference between the two candidates if one exists, or an explicit statement that no difference was observed; identical correct live responses satisfy this requirement and do not prove that the model is deterministic; an observed difference under the same adapter and model does not by itself prove that sampling was the sole cause; do not spend another generation only to force a difference;
@@ -450,18 +450,19 @@ uv run learning-project lab02 verify --vault "$vault" --report-dir reports/lab02
 uv run learning-project prepare-report .\reports\lab02\REPORT.md
 ```
 
-`prepare-report` runs only after that final pass. It leaves the source report and PNG files unchanged and writes `reports/lab02/submission/REPORT.md` with the six images embedded. Open the generated file and confirm that all six figures render. The source report must still contain six relative `screenshots/...` image links and no `data:` URI; the generated copy must contain six `data:image/` entries and no local screenshot dependency.
+`prepare-report` runs only after that final pass. It leaves the source report and PNG files unchanged and writes the ignored `reports/lab02/submission/REPORT.md` with the six images embedded. Open the generated file and confirm that all six figures render. The source report must still contain six relative `screenshots/...` image links and no `data:` URI; the generated copy must contain six `data:image/` entries and no local screenshot dependency. The generated copy is attached to Microsoft Teams only and is not committed or viewed through GitHub.
 
-Commit only the report identity update, the regenerated verification report, and the generated Teams copy, then push the branch to the fork:
+Commit only the report identity update and regenerated verification report, then push the branch to the fork. The `git rm --cached` transition keeps an already tracked copy on disk while removing it from Git; for a new untracked copy it is a no-op:
 
 ```powershell
-git add reports/lab02/REPORT.md reports/lab02/verification-report.json reports/lab02/submission/REPORT.md
+git rm --cached --ignore-unmatch reports/lab02/submission/REPORT.md
+git add reports/lab02/REPORT.md reports/lab02/verification-report.json
 git commit -m "docs(lab02): package report for submission"
 git push -u origin HEAD
 git status --short
 ```
 
-The source report, `verification-report.json`, and generated submission report in this packaging commit now describe the same report content. Identity lives only in the report, not in the Teams assignment text field.
+The source report and `verification-report.json` in this packaging commit describe the same report content. The generated submission report is derived from that source, remains ignored outside the commit, and is attached directly to Teams. Identity lives only in the report, not in the Teams assignment text field.
 
 Do not re-run `lab02 verify` against the working tree after the packaging commit: the command rewrites `verification-report.json` with a new timestamp and would dirty the submission. To read back the submitted evidence, copy the report directory and verify the copy against the original external vault:
 
@@ -479,7 +480,7 @@ uv run learning-project lab02 verify --vault "$vault" --report-dir "$check_dir"
 
 Do not amend or reset either commit to chase a rewritten timestamp.
 
-**Expected result:** the working tree is clean, the branch exists in the fork, the report identifies the immutable evidence commit, and the later packaging commit contains the source report, verification result, and self-contained Teams report without credentials, upstream-owned edits, or vault content.
+**Expected result:** the working tree is clean despite the local ignored Teams copy, the branch exists in the fork, the report identifies the immutable evidence commit, and the later packaging commit contains the source report and verification result without credentials, upstream-owned edits, vault content, or the self-contained Teams report.
 
 ## Cleanup and rollback
 
@@ -512,7 +513,7 @@ The self-study sequence is ready for the scheduled demonstration only when all o
 - the accepted concept and exactly one operation record exist, and a repeated apply refuses with an unchanged concept digest;
 - `verification-report.json` reports `status: passed` and the command exits `0`;
 - the six screenshots are present with the approved filenames and are referenced from `REPORT.md`;
-- `reports/lab02/submission/REPORT.md` contains the same report with all six images embedded;
+- the ignored local `reports/lab02/submission/REPORT.md` contains the same report with all six images embedded and is absent from Git;
 - committed paths are under `training-project/reports/` and `training-project/student/` only;
 - the submitted evidence contains no credentials, tokens, payment-card data, or complete vault content.
 
@@ -525,7 +526,7 @@ Follow the course laboratory standing rules in [`LABORATORY_STANDING_RULES.md`](
 - `reports/lab02/live-comparison.json`;
 - `reports/lab02/semantic-review.yaml`.
 
-Do not attach the six PNG files separately; they are embedded in the Teams copy and remain individually reviewable in the fork. The fork URL, branch name, and complete evidence-commit hash live only in the report identity section, not in the Teams assignment text field. Detailed run evidence remains reviewable in that immutable evidence commit; the later packaging commit contains the finalized report files. The external vault, authentication state, payment-card data, unfiltered logs, and a PDF duplicate of `REPORT.md` are excluded.
+Do not attach the six PNG files separately; they are embedded in the Teams copy and remain individually reviewable through the source report in the fork. The fork URL, branch name, and complete evidence-commit hash live only in the report identity section, not in the Teams assignment text field. Detailed run evidence remains reviewable in that immutable evidence commit; the later packaging commit contains the finalized source report and verification result, not the ignored Teams copy. The external vault, authentication state, payment-card data, unfiltered logs, and a PDF duplicate of `REPORT.md` are excluded.
 
 ## Control questions
 
