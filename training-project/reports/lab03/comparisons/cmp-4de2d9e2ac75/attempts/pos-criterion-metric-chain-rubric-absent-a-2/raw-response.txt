@@ -1,0 +1,4 @@
+{
+  "case_id": "criterion-metric-chain-rubric-absent",
+  "proposed_text": "The supplied source does not specify how many rubric categories the department's evaluation rubric defines; it only describes what an evaluation rubric is in general terms."
+}

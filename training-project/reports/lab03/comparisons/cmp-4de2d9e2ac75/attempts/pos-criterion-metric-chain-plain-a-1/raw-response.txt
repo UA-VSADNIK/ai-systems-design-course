@@ -1,0 +1,4 @@
+{
+  "case_id": "criterion-metric-chain-plain",
+  "proposed_text": "In evaluation design, a criterion and a metric serve complementary roles: the criterion defines the desired quality property or standard that a system must achieve, while a metric provides a precise, quantifiable measurement that can be evaluated against that criterion. The metric acts as the operational tool through which the abstract quality specified by the criterion is made concrete and assessable, allowing evaluators to determine objectively whether the system satisfies the required property. Thus, the criterion establishes the 'what' in terms of quality, and the metric establishes the 'how' through measurable values that are compared directly against the criterion to judge compliance."
+}

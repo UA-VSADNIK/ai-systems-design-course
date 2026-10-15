@@ -1,0 +1,20 @@
+{
+  "schema_version": "1.0",
+  "lab_id": "lab03",
+  "events": [
+    {
+      "event": "revealed-after-freeze",
+      "family_id": "reserve-criteria-chain",
+      "freeze_id": "cmp-4de2d9e2ac75",
+      "actor": "kn1223b",
+      "recorded_at": "2026-10-12T16:02:31.332496+00:00"
+    },
+    {
+      "event": "used-in-comparison",
+      "family_id": "reserve-criteria-chain",
+      "freeze_id": "cmp-4de2d9e2ac75",
+      "actor": "kn1223b",
+      "recorded_at": "2026-10-12T16:02:31.337659+00:00"
+    }
+  ]
+}

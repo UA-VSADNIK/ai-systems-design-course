@@ -1,0 +1,11 @@
+schema_version: '1.0'
+blind_id: blind-005
+category: S
+source_pointer: A criterion states the quality property the system must satisfy. A metric is a defined
+  measurement whose values can be compared against the criterion to judge whether that property holds.
+  In an unrelated deployment note, nightly backups keep the shared drive available for every regional
+  office.
+rationale: The response accurately states the criterion and metric relationship, including comparison
+  against the criterion, without importing unrelated details.
+assessed_by: kn1223b
+recorded_at: '2026-10-12T18:39:59.324167+00:00'

@@ -1,0 +1,9 @@
+{
+  "position_id": "pos-dev-source-baseline-definition-a-1",
+  "adapter": "openrouter",
+  "model_id": "openrouter/free",
+  "started_at": "2026-10-12T07:04:35.056291+00:00",
+  "finished_at": "2026-10-12T07:04:40.862932+00:00",
+  "recorded_by": "kn1223b",
+  "observed_model": "apodex/apodex-1.1-mini:free"
+}

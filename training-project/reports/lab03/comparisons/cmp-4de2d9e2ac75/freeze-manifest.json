@@ -1,0 +1,53 @@
+{
+  "schema_version": "1.0",
+  "freeze_id": "cmp-4de2d9e2ac75",
+  "comparison_dir": "D:\\ai_system_design\\ai-systems-design-course\\training-project\\reports\\lab03\\comparisons\\cmp-4de2d9e2ac75",
+  "protocol": {
+    "engineering_decision": "Should variant B replace variant A for the evaluated source-grounded concept proposal use cases?",
+    "hypothesis": "Adding an explicit source-grounding rule will reduce unsupported claims and improve meaning coverage by encouraging the model to preserve source-supported meaning and acknowledge missing information.",
+    "semantic_acceptance": "For each configuration, meaning coverage is the number of responses judged S or Q divided by 8 planned attempts. Failed attempts, structurally invalid responses, and responses judged I, U, R, or X count as not covered. The acceptance threshold is at least 6/8 (75%).",
+    "blocking_failures": "Any response judged U because it contains a material unsupported claim violates the blocking condition for that configuration.",
+    "operational_acceptance": "Each returned response must have a measured latency of no more than 30 seconds from attempt start to returned response. Unknown latency or usage measurements leave operational acceptance unresolved and must not be treated as passing.",
+    "tradeoff_rule": "Variant B may replace variant A only if B satisfies every blocking condition, meets semantic and operational acceptance criteria, and has higher meaning coverage than A without an unresolved relevant operational disadvantage. Do not claim dominance over any relevant dimension with unknown evidence.",
+    "decision_rule": {
+      "recommend-b": "B satisfies every blocking condition and both acceptance criteria, and the evidence justifies the change.",
+      "retain-a": "A remains acceptable and B does not justify replacing it.",
+      "reject-both": "Both configurations violate at least one blocking condition.",
+      "seek-more-evidence": "Relevant evidence or uncertainty remains unresolved."
+    },
+    "attempt_budget": 16,
+    "timing_boundary": "Measure the same interval for both configurations, from the start of each planned attempt until the model response is returned.",
+    "route": {
+      "adapter": "openrouter",
+      "model_id": "openrouter/free"
+    },
+    "order_rule": "course-generated balanced schedule",
+    "resume_window": "48h"
+  },
+  "variant_a_sha256": "69f0f1d6b4b3298353df79e53cff0fd654f15df43117a6e40f865cb655448d91",
+  "variant_b_sha256": "e5022b3a8c9b78b8be3937fa292771e7c089410e055322a75dc74a943a6d72bb",
+  "change_declaration": {
+    "changed_property": "source-grounding rule",
+    "mechanism": "Requiring answers to stay within the supplied evidence and explicitly identify missing information may reduce unsupported claims and improve justified uncertainty.",
+    "declared_factors": [
+      "source-grounding rule"
+    ]
+  },
+  "route": {
+    "adapter": "openrouter",
+    "model_id": "openrouter/free"
+  },
+  "resume_window": "48h",
+  "eligible_reserve_count_at_freeze": 3,
+  "bindings": {
+    "output_schema_sha256": "b656ec5caa60b098b6711283893cfe0a6b0f5391d43accd55f2c136b828ca0c7",
+    "case_family_contract_sha256": "5bad7f720a34f0e5a02127a71841eb9143feaefb05a85887c7701679503867ac",
+    "validator_module_sha256": "f2c763d45afdff72214990c078c75ba10f35d907a36194cab6a0ad81dc436360",
+    "validator_schema_version": "1.0",
+    "development_schedule_sha256": "42e9ec110b6b8d6fb19c4d19964a995ee56b4df5fc3c6f286f4a8088fc277016",
+    "change_declaration_sha256": "657eaff3930ad52180a483738b85e3afdaba17589c8ce75f8d8bfa72124c179c",
+    "exposure_ledger_sha256": "a34c1a5a459235652961ed5654cf0e7cf17c2382f8d99cb17434a828ddc14a60"
+  },
+  "frozen_at": "2026-10-12T11:05:24.821551+00:00",
+  "frozen_by": "kn1223b"
+}

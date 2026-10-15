@@ -1,0 +1,4 @@
+changed_property: source-grounding rule
+mechanism: "Requiring answers to stay within the supplied evidence and explicitly identify missing information may reduce unsupported claims and improve justified uncertainty."
+declared_factors:
+  - source-grounding rule

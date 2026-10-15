@@ -1,0 +1,13 @@
+schema_version: '1.0'
+recorded_at: '2026-10-13T16:56:25.209476+00:00'
+regression_id: packet-baseline-unsupported-archiving
+source_kind: authored-fixture
+fixture_id: authored-failure-supported-plus-invented
+model_authorship_claim: none
+diagnosis: The response adds the claim that every rejected proposal is archived automatically, but the
+  supplied source only states that the baseline identifies the source used to check a proposal. The archival
+  claim is unsupported.
+expected_behavior_review: The expected behavior remains correct because the source establishes the relationship
+  between the baseline, the source, and checking a proposal. It provides no support for automatic archiving
+  or approval behavior.
+reviewed_by: kn1223b

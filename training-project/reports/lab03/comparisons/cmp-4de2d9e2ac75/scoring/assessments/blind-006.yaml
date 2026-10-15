@@ -1,0 +1,12 @@
+schema_version: '1.0'
+blind_id: blind-006
+category: S
+source_pointer: A criterion states the quality property the system must satisfy. A metric is a defined
+  measurement whose values can be compared against the criterion to judge whether that property holds.
+  In an unrelated deployment note, nightly backups keep the shared drive available for every regional
+  office.
+rationale: The response preserves the criterion-metric-comparison relation. The phrase 'required threshold
+  or condition' is a reasonable elaboration of how a criterion may be assessed, not a material unsupported
+  factual claim. The response also avoids importing the unrelated deployment details.
+assessed_by: kn1223b
+recorded_at: '2026-10-12T18:40:07.070472+00:00'

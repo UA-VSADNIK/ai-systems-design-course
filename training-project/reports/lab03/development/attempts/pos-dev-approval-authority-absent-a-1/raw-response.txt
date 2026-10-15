@@ -1,0 +1,1 @@
+{"case_id":"dev-approval-authority-absent","proposed_text":"The reviewer, as recorded in the review record, is the entity permitted to approve a proposal."}

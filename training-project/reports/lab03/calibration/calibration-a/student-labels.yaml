@@ -1,0 +1,17 @@
+schema_version: '1.0'
+packet_id: calibration-a
+labels:
+- output_id: cal-a-1
+  category: 'S'
+  rationale: 'For task source-baseline-definition, the supplied source states that a source baseline identifies the material against which a proposal is reviewed. The proposed text preserves this relationship and provides the expected complete definition. Under rubric category S, the answer is source-supported and complete.'
+- output_id: cal-a-2
+  category: 'I'
+  rationale: 'For task source-baseline-definition, the supplied source links the baseline to the material against which a proposal is reviewed. The proposed text states only that the baseline identifies material and omits its role in proposal review. The answer is source-supported but incomplete, which matches rubric category I.'
+- output_id: cal-a-3
+  category: 'U'
+  rationale: 'For task source-baseline-definition, the supplied source supports identifying the material against which a proposal is reviewed, but it does not state that later changes are automatically approved. This additional claim is unsupported by the source. Under the rubric decision order, a materially unsupported claim receives category U, even when the answer also contains correct information.'
+- output_id: cal-a-4
+  category: 'Q'
+  rationale: 'For task retention-duration, the supplied source states that review records are stored in the knowledge system but does not specify a retention duration. The proposed text correctly identifies this missing information without inventing a duration. This follows the expected behavior for the task and matches rubric category Q for justified uncertainty.'
+student: kn1223b
+recorded_at: '2026-10-12T05:40:27.280300+00:00'

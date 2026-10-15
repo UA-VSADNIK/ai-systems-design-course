@@ -1,0 +1,39 @@
+schema_version: '1.0'
+comparison_id: cmp-4de2d9e2ac75
+outcome: seek-more-evidence
+rationale: Variant B achieved 7/8 rubric-acceptable responses (87.5%) compared with 6/8 (75%) for A. Both
+  met the 6/8 semantic threshold, had zero critical unsupported claims, zero failed attempts, and zero
+  unstarted attempts. All observed response latencies were below the 30-second limit. However, the sample
+  is small, repeated attempts differed within both configurations, the observed model sets differed between
+  A and B, and monetary cost, quota usage, and token usage are unknown. Therefore, the evidence does not
+  yet justify replacing A with B.
+limitations:
+- Small designed set
+- observed model variation under openrouter/free
+- unknown monetary cost, quota usage, and token usage
+- repeated-attempt variability
+- one student assessor does not measure inter-rater variability.
+blocking_failures: Any response judged U because it contains a material unsupported claim violates the
+  blocking condition for that configuration.
+decision_rule:
+  recommend-b: B satisfies every blocking condition and both acceptance criteria, and the evidence justifies
+    the change.
+  retain-a: A remains acceptable and B does not justify replacing it.
+  reject-both: Both configurations violate at least one blocking condition.
+  seek-more-evidence: Relevant evidence or uncertainty remains unresolved.
+nested_counts:
+  a:
+    attempted: 8
+    returned: 8
+    structurally_valid: 6
+    assessable: 6
+    rubric_acceptable: 6
+  b:
+    attempted: 8
+    returned: 8
+    structurally_valid: 7
+    assessable: 7
+    rubric_acceptable: 7
+protocol_freeze_id: cmp-4de2d9e2ac75
+recorded_by: kn1223b
+recorded_at: '2026-10-13T16:09:45.314335+00:00'

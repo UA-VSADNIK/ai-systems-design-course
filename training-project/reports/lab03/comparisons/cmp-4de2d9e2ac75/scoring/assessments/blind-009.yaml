@@ -1,0 +1,9 @@
+schema_version: '1.0'
+blind_id: blind-009
+category: Q
+source_pointer: An evaluation rubric is a written set of categories, rules for assigning those categories,
+  and examples that show the boundaries between them.
+rationale: The response distinguishes the general definition provided by the source from the requested
+  category count, which is not specified.
+assessed_by: kn1223b
+recorded_at: '2026-10-12T18:40:32.669137+00:00'

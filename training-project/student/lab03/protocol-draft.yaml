@@ -1,0 +1,16 @@
+engineering_decision: "Should variant B replace variant A for the evaluated source-grounded concept proposal use cases?"
+hypothesis: "Adding an explicit source-grounding rule will reduce unsupported claims and improve meaning coverage by encouraging the model to preserve source-supported meaning and acknowledge missing information."
+semantic_acceptance: "For each configuration, meaning coverage is the number of responses judged S or Q divided by 8 planned attempts. Failed attempts, structurally invalid responses, and responses judged I, U, R, or X count as not covered. The acceptance threshold is at least 6/8 (75%)."
+blocking_failures: "Any response judged U because it contains a material unsupported claim violates the blocking condition for that configuration."
+operational_acceptance: "Each returned response must have a measured latency of no more than 30 seconds from attempt start to returned response. Unknown latency or usage measurements leave operational acceptance unresolved and must not be treated as passing."
+tradeoff_rule: "Variant B may replace variant A only if B satisfies every blocking condition, meets semantic and operational acceptance criteria, and has higher meaning coverage than A without an unresolved relevant operational disadvantage. Do not claim dominance over any relevant dimension with unknown evidence."
+decision_rule:
+  recommend-b: "B satisfies every blocking condition and both acceptance criteria, and the evidence justifies the change."
+  retain-a: "A remains acceptable and B does not justify replacing it."
+  reject-both: "Both configurations violate at least one blocking condition."
+  seek-more-evidence: "Relevant evidence or uncertainty remains unresolved."
+attempt_budget: 16
+timing_boundary: "Measure the same interval for both configurations, from the start of each planned attempt until the model response is returned."
+route:
+  adapter: openrouter
+  model_id: openrouter/free

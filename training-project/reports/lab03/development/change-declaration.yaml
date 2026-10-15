@@ -1,0 +1,8 @@
+changed_property: source-grounding rule
+mechanism: Requiring answers to stay within the supplied evidence and explicitly identify missing information
+  may reduce unsupported claims and improve justified uncertainty.
+declared_factors:
+- source-grounding rule
+variant_a_sha256: d765770175309f6014f3af33d845b730aa0d7323fccd57403e8146be4dc352ee
+variant_b_sha256: e5022b3a8c9b78b8be3937fa292771e7c089410e055322a75dc74a943a6d72bb
+recorded_at: '2026-10-12T10:29:23.794243+00:00'
