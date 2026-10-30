@@ -1,0 +1,69 @@
+{
+  "schema_version": "1.0",
+  "selected retrieval configuration": "lexical retrieval",
+  "experiment-baseline retrieval configuration": "lexical retrieval",
+  "candidate retrieval configuration": "embedding-based retrieval",
+  "decided by": "UA-VSADNIK, engineering team",
+  "rationale": "For Evaluation Case A and Evaluation Case B on canonical collection course-seed-v1, with sentence-pair-v1 and k=1, aggregate recall@1 is 0 of 2 for every compared configuration. Each configuration that returned a unit returned F-B, judged not relevant. Lexical retrieval and lexical retrieval followed by embedding-based reranking returned no unit for Case A, so precision@1 is undefined for those empty outputs. The measured average query latency was 55.186 ms for lexical retrieval, compared with 946.827 ms for embedding-based retrieval, 651.817 ms for hybrid retrieval, and 652.032 ms for lexical retrieval followed by embedding-based reranking. No execution failures were recorded. Since no configuration demonstrated relevant retrieval in these declared cases and lexical retrieval had the lowest measured latency, retain lexical retrieval as the experiment baseline for these cases only. Index build and update cost was not re-measured. This decision does not establish downstream concept quality or end-to-end workflow success and does not authorize changes to the canonical knowledge collection.",
+  "decision boundary": "bounded to Evaluation Case A and Evaluation Case B, canonical knowledge collection version course-seed-v1, the sentence-pair-v1 retrieval-unit boundary, the declared relevance judging basis, and the configured result count k=1",
+  "authority boundary": "a bounded configuration decision about the retrieval configuration; it does not establish the quality of the candidate concept definition produced downstream, does not establish that the complete user workflow achieves its intended result, and does not authorize any change to the canonical knowledge collection",
+  "aggregate metrics at decision time": [
+    {
+      "retrieval configuration": "lexical retrieval",
+      "aggregation rule": "judged returned retrieval units counted across both evaluation cases; an empty ranked candidate output contributes no judged returned retrieval unit to the precision denominator",
+      "precision@1": {
+        "numerator": 0,
+        "denominator": 1,
+        "value": 0.0
+      },
+      "recall@1": {
+        "numerator": 0,
+        "denominator": 2,
+        "value": 0.0
+      }
+    },
+    {
+      "retrieval configuration": "embedding-based retrieval",
+      "aggregation rule": "judged returned retrieval units counted across both evaluation cases; an empty ranked candidate output contributes no judged returned retrieval unit to the precision denominator",
+      "precision@1": {
+        "numerator": 0,
+        "denominator": 2,
+        "value": 0.0
+      },
+      "recall@1": {
+        "numerator": 0,
+        "denominator": 2,
+        "value": 0.0
+      }
+    },
+    {
+      "retrieval configuration": "hybrid retrieval",
+      "aggregation rule": "judged returned retrieval units counted across both evaluation cases; an empty ranked candidate output contributes no judged returned retrieval unit to the precision denominator",
+      "precision@1": {
+        "numerator": 0,
+        "denominator": 2,
+        "value": 0.0
+      },
+      "recall@1": {
+        "numerator": 0,
+        "denominator": 2,
+        "value": 0.0
+      }
+    },
+    {
+      "retrieval configuration": "lexical retrieval followed by embedding-based reranking",
+      "aggregation rule": "judged returned retrieval units counted across both evaluation cases; an empty ranked candidate output contributes no judged returned retrieval unit to the precision denominator",
+      "precision@1": {
+        "numerator": 0,
+        "denominator": 1,
+        "value": 0.0
+      },
+      "recall@1": {
+        "numerator": 0,
+        "denominator": 2,
+        "value": 0.0
+      }
+    }
+  ],
+  "observation boundary": "one bounded configuration decision; no downstream claim"
+}

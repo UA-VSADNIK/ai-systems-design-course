@@ -1,0 +1,35 @@
+{
+  "schema_version": "1.0",
+  "designated human evaluator": "UA-VSADNIK",
+  "judged evaluation cases": [
+    {
+      "evaluation case": "Evaluation Case A",
+      "relevance judging basis": "A retrieval unit must explain which data identify the originating record, the originating record version, and the exact location of the supporting passage.",
+      "returned retrieval units judged": [
+        "F-B"
+      ],
+      "relevance judgments": [
+        {
+          "stable retrieval identifier": "F-B",
+          "relevance judgment": "not relevant",
+          "rationale": "F-B identifies record R-B, record version 1, supporting source course-source-b version 1, and character span 1-143. However, the retrieved fragment represents a proposal-run receipt rather than establishing the required link between the originating primary record and the exact location of the supporting evidence passage. It therefore does not satisfy the declared relevance basis for tracing an excerpt to its origin and revision."
+        }
+      ]
+    },
+    {
+      "evaluation case": "Evaluation Case B",
+      "relevance judging basis": "A retrieval unit must explain which data identify the originating record, the originating record version, and the exact location of the supporting passage.",
+      "returned retrieval units judged": [
+        "F-B"
+      ],
+      "relevance judgments": [
+        {
+          "stable retrieval identifier": "F-B",
+          "relevance judgment": "not relevant",
+          "rationale": "F-B identifies record R-B, record version 1, supporting source course-source-b version 1, and character span 1-143. However, these provenance metadata identify the receipt fragment and its source location without establishing the required link to the exact supporting passage in the originating primary record. It therefore does not satisfy the declared relevance basis for identifying the primary record, its version, and the precise location of the supporting passage for a concept proposal."
+        }
+      ]
+    }
+  ],
+  "observation boundary": "relevance judgments over returned retrieval units; no retrieval metric"
+}
