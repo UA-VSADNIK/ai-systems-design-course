@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "shared experiment protocol id": "SEP-05-1",
+  "bounded configuration decision": "adopt the candidate configuration",
+  "decision rationale": "Both experiment baseline and candidate configuration achieved a rubric pass rate of 1.00. The baseline result is retention permitted, and the candidate result is adoption permitted. Both roles satisfied the minimum rubric pass rate, blocking-failure, maximum-latency, and maximum-human-review conditions. Token usage was not evaluated because it is unavailable from the AGY adapter. The decision is limited to adopting the candidate configuration for the evaluated concept-proposal task and does not authorize changes to the canonical source collection.",
+  "rubric pass rates": {
+    "experiment baseline": 1.0,
+    "candidate configuration": 1.0
+  },
+  "candidate configuration role outcome": "adoption permitted",
+  "experiment baseline role outcome": "retention permitted",
+  "scope": "The bounded configuration decision rests on the declared development evaluation cases and supplies no held-out evidence.",
+  "authority boundary": "The bounded configuration decision does not select a retrieval configuration and authorizes no write to the canonical knowledge collection.",
+  "recorded by": "kn1223b"
+}
