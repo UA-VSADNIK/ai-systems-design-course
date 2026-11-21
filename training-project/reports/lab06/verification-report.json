@@ -1,0 +1,66 @@
+{
+  "schema_version": "1.0",
+  "lab_id": "lab06",
+  "outcome": "passed",
+  "final_commit": "0f3f889b36d8e63bee8abfd4fa2a9f51c2fd40b3",
+  "checks": [
+    {
+      "check_id": "final-commit",
+      "status": "passed",
+      "message": "exact final commit 0f3f889b36d8e63bee8abfd4fa2a9f51c2fd40b3 is the current branch head"
+    },
+    {
+      "check_id": "report-headings",
+      "status": "passed",
+      "message": "required report headings are present in order"
+    },
+    {
+      "check_id": "internal-vocabulary",
+      "status": "passed",
+      "message": "no internal course-development vocabulary is present"
+    },
+    {
+      "check_id": "report-identity",
+      "status": "passed",
+      "message": "fork URL and personal branch are recorded"
+    },
+    {
+      "check_id": "report-completion",
+      "status": "passed",
+      "message": "the completion state is recorded"
+    },
+    {
+      "check_id": "report-data-uri",
+      "status": "passed",
+      "message": "the source report embeds no data URIs"
+    },
+    {
+      "check_id": "report-screenshots",
+      "status": "passed",
+      "message": "7 exact relative links and 6 pre-verification screenshot files are present"
+    },
+    {
+      "check_id": "stage-evidence",
+      "status": "passed",
+      "message": "required reporting evidence is present"
+    },
+    {
+      "check_id": "report-prompts",
+      "status": "passed",
+      "message": "replace all fixture prompts and introductory instructions"
+    },
+    {
+      "check_id": "committed-inputs",
+      "status": "passed",
+      "message": "source report, existing machine evidence and collection match committed bytes"
+    },
+    {
+      "check_id": "domain-evidence",
+      "status": "passed",
+      "message": "existing deterministic checks match the recorded human inputs and decision"
+    }
+  ],
+  "generated_at": "2026-11-21T08:56:26.913108+00:00",
+  "completion_state": "complete",
+  "domain_completion_claimed": true
+}
